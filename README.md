@@ -1,32 +1,13 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { AccountService } from '../../services/account.service';
-import { Account } from '../../models/account';
+<h2>Create Account</h2>
 
-@Component({
-  selector: 'app-account-form',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './account-form.component.html'
-})
-export class AccountFormComponent {
+<form (ngSubmit)="saveAccount()">
+  <input [(ngModel)]="account.accountNumber" name="accountNumber" placeholder="Account Number" required>
+  <input [(ngModel)]="account.accountName" name="accountName" placeholder="Name">
+  <input [(ngModel)]="account.accountType" name="accountType" placeholder="Type">
+  <input [(ngModel)]="account.accountBalance" name="accountBalance" placeholder="Balance">
+  <input [(ngModel)]="account.ifsc" name="ifsc" placeholder="IFSC">
+  <input [(ngModel)]="account.emailId" name="emailId" placeholder="Email">
+  <input [(ngModel)]="account.branchName" name="branchName" placeholder="Branch">
 
-  account: Account = {
-    accountNumber: 0,
-    accountName: '',
-    accountType: '',
-    accountBalance: 0,
-    ifsc: '',
-    emailId: '',
-    branchName: ''
-  };
-
-  constructor(private accountService: AccountService) {}
-
-  saveAccount() {
-    this.accountService.createAccount(this.account).subscribe(() => {
-      alert('Account Created!');
-    });
-  }
-}
+  <button type="submit">Save</button>
+</form>
