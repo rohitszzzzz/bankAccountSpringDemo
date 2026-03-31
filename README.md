@@ -1,13 +1,29 @@
-<h2>Create Account</h2>
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { AccountService } from '../../services/account.service';
+import { Account } from '../../models/account';
 
-<form (ngSubmit)="saveAccount()">
-  <input [(ngModel)]="account.accountNumber" name="accountNumber" placeholder="Account Number" required>
-  <input [(ngModel)]="account.accountName" name="accountName" placeholder="Name">
-  <input [(ngModel)]="account.accountType" name="accountType" placeholder="Type">
-  <input [(ngModel)]="account.accountBalance" name="accountBalance" placeholder="Balance">
-  <input [(ngModel)]="account.ifsc" name="ifsc" placeholder="IFSC">
-  <input [(ngModel)]="account.emailId" name="emailId" placeholder="Email">
-  <input [(ngModel)]="account.branchName" name="branchName" placeholder="Branch">
+@Component({
+  selector: 'app-account-details',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './account-details.component.html'
+})
+export class AccountDetailsComponent implements OnInit {
 
-  <button type="submit">Save</button>
-</form>
+  account?: Account;
+
+  constructor(
+    private route: ActivatedRoute,
+    private accountService: AccountService
+  ) {}
+
+  ngOnInit(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+
+    this.accountService.getAccountById(id).subscribe(data => {
+      this.account = data;
+    });
+  }
+}
