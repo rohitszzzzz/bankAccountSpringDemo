@@ -1,42 +1,34 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Account } from '../models/account';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AccountService } from '../../services/account.service';
+import { Account } from '../../models/account';
+import { RouterModule } from '@angular/router';
 
-@Injectable({
-  providedIn: 'root'
+@Component({
+  selector: 'app-account-list',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
+  templateUrl: './account-list.component.html'
 })
-export class AccountService {
+export class AccountListComponent implements OnInit {
 
-  private baseUrl = 'http://localhost:8080/accounts';
+  accounts: Account[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private accountService: AccountService) {}
 
-  createAccount(account: Account): Observable<Account> {
-    return this.http.post<Account>(this.baseUrl, account);
+  ngOnInit(): void {
+    this.loadAccounts();
   }
 
-  getAllAccounts(): Observable<Account[]> {
-    return this.http.get<Account[]>(this.baseUrl);
+  loadAccounts() {
+    this.accountService.getAllAccounts().subscribe(data => {
+      this.accounts = data;
+    });
   }
 
-  getAccountById(id: number): Observable<Account> {
-    return this.http.get<Account>(`${this.baseUrl}/account/id/${id}`);
-  }
-
-  getAccountByEmail(email: string): Observable<Account> {
-    return this.http.get<Account>(`${this.baseUrl}/account/email/${email}`);
-  }
-
-  getAccountByNumber(accNo: number): Observable<Account> {
-    return this.http.get<Account>(`${this.baseUrl}/account/accountNumber/${accNo}`);
-  }
-
-  updateAccount(id: number, account: Account): Observable<Account> {
-    return this.http.put<Account>(`${this.baseUrl}/${id}`, account);
-  }
-
-  deleteAccount(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+  deleteAccount(id: number) {
+    this.accountService.deleteAccount(id).subscribe(() => {
+      this.loadAccounts();
+    });
   }
 }
