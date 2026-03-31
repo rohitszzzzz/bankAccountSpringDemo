@@ -1,10 +1,12 @@
-import { Routes } from '@angular/router';
-import { AccountListComponent } from './components/account-list/account-list.component';
-import { AccountFormComponent } from './components/account-form/account-form.component';
-import { AccountDetailsComponent } from './components/account-details/account-details.component';
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 
-export const routes: Routes = [
-  { path: '', component: AccountListComponent },
-  { path: 'create', component: AccountFormComponent },
-  { path: 'details/:id', component: AccountDetailsComponent }
-];
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient()
+  ]
+};
