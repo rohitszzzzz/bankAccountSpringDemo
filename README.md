@@ -1,12 +1,10 @@
-<h2>Account Details</h2>
+import { Routes } from '@angular/router';
+import { AccountListComponent } from './components/account-list/account-list.component';
+import { AccountFormComponent } from './components/account-form/account-form.component';
+import { AccountDetailsComponent } from './components/account-details/account-details.component';
 
-<div *ngIf="account">
-  <p><b>ID:</b> {{ account.id }}</p>
-  <p><b>Name:</b> {{ account.accountName }}</p>
-  <p><b>Email:</b> {{ account.emailId }}</p>
-  <p><b>Balance:</b> {{ account.accountBalance }}</p>
-  <p><b>IFSC:</b> {{ account.ifsc }}</p>
-  <p><b>Branch:</b> {{ account.branchName }}</p>
-  <p><b>Status:</b> {{ account.status }}</p>
-  <p><b>Last Updated:</b> {{ account.lastUpdated | date:'medium' }}</p>
-</div>
+export const routes: Routes = [
+  { path: '', component: AccountListComponent },
+  { path: 'create', component: AccountFormComponent },
+  { path: 'details/:id', component: AccountDetailsComponent }
+];
