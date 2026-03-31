@@ -1,34 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AccountService } from '../../services/account.service';
-import { Account } from '../../models/account';
-import { RouterModule } from '@angular/router';
+<h2>All Accounts</h2>
 
-@Component({
-  selector: 'app-account-list',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './account-list.component.html'
-})
-export class AccountListComponent implements OnInit {
+<button routerLink="/create">Create Account</button>
 
-  accounts: Account[] = [];
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Balance</th>
+    <th>Actions</th>
+  </tr>
 
-  constructor(private accountService: AccountService) {}
-
-  ngOnInit(): void {
-    this.loadAccounts();
-  }
-
-  loadAccounts() {
-    this.accountService.getAllAccounts().subscribe(data => {
-      this.accounts = data;
-    });
-  }
-
-  deleteAccount(id: number) {
-    this.accountService.deleteAccount(id).subscribe(() => {
-      this.loadAccounts();
-    });
-  }
-}
+  <tr *ngFor="let acc of accounts">
+    <td>{{ acc.id }}</td>
+    <td>{{ acc.accountName }}</td>
+    <td>{{ acc.emailId }}</td>
+    <td>{{ acc.accountBalance }}</td>
+    <td>
+      <button (click)="deleteAccount(acc.id!)">Delete</button>
+    </td>
+  </tr>
+</table>
