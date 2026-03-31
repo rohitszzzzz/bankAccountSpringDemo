@@ -1,23 +1,32 @@
-<h2>All Accounts</h2>
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AccountService } from '../../services/account.service';
+import { Account } from '../../models/account';
 
-<button routerLink="/create">Create Account</button>
+@Component({
+  selector: 'app-account-form',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './account-form.component.html'
+})
+export class AccountFormComponent {
 
-<table border="1">
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Balance</th>
-    <th>Actions</th>
-  </tr>
+  account: Account = {
+    accountNumber: 0,
+    accountName: '',
+    accountType: '',
+    accountBalance: 0,
+    ifsc: '',
+    emailId: '',
+    branchName: ''
+  };
 
-  <tr *ngFor="let acc of accounts">
-    <td>{{ acc.id }}</td>
-    <td>{{ acc.accountName }}</td>
-    <td>{{ acc.emailId }}</td>
-    <td>{{ acc.accountBalance }}</td>
-    <td>
-      <button (click)="deleteAccount(acc.id!)">Delete</button>
-    </td>
-  </tr>
-</table>
+  constructor(private accountService: AccountService) {}
+
+  saveAccount() {
+    this.accountService.createAccount(this.account).subscribe(() => {
+      alert('Account Created!');
+    });
+  }
+}
