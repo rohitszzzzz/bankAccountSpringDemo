@@ -1,29 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import { AccountService } from '../../services/account.service';
-import { Account } from '../../models/account';
+<h2>Account Details</h2>
 
-@Component({
-  selector: 'app-account-details',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './account-details.component.html'
-})
-export class AccountDetailsComponent implements OnInit {
-
-  account?: Account;
-
-  constructor(
-    private route: ActivatedRoute,
-    private accountService: AccountService
-  ) {}
-
-  ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-
-    this.accountService.getAccountById(id).subscribe(data => {
-      this.account = data;
-    });
-  }
-}
+<div *ngIf="account">
+  <p><b>ID:</b> {{ account.id }}</p>
+  <p><b>Name:</b> {{ account.accountName }}</p>
+  <p><b>Email:</b> {{ account.emailId }}</p>
+  <p><b>Balance:</b> {{ account.accountBalance }}</p>
+  <p><b>IFSC:</b> {{ account.ifsc }}</p>
+  <p><b>Branch:</b> {{ account.branchName }}</p>
+  <p><b>Status:</b> {{ account.status }}</p>
+  <p><b>Last Updated:</b> {{ account.lastUpdated | date:'medium' }}</p>
+</div>
